@@ -7,6 +7,7 @@
     <meta>
     <meta>
     <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>CRUD-Administracion</title>
 </head>
 <body>
@@ -51,7 +52,7 @@
                 </div>
                 <div class="my-3">
                     <label for="precio" class="form-label">Precio</label>
-                    <input id="precio" type="number" class="form-control" placeholder="Ingrese el precio del producto" minlength="1" maxlength="50" required>
+                    <input id="precio" type="text" class="form-control" placeholder="Ingrese el precio del producto" minlength="1" maxlength="50" required>
                 </div>
                 <div class="my-3">
                     <label for="imgUrl" class="form-label">URL imagen</label>
@@ -101,5 +102,6 @@
     <footer></footer>
 
     <script src="./js/bootstrap.min.js"></script>
+    <script type="module" src="./js/admin.js"></script>
 </body>
 </html>
