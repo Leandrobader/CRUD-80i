@@ -1,15 +1,16 @@
-import {ValidarinputRequerido, ValidarinputDescripcion,ValidarinputPrecio,ValidarinputUrl, validarTodo } from "./hellpers.js"; //Para poder importar debo agregar el type module en el html script
+import {ValidarinputRequerido, ValidarinputDescripcion,ValidarinputPrecio,ValidarinputUrl, validarTodo, ObtenerCodigoAleatorio} from "./hellpers.js"; //Para poder importar debo agregar el type module en el html script
 let arrayProductos=JSON.parse(localStorage.getItem("productos"))||[];
-
+let bodyTabla=document.querySelector("tbody")
 let inputCodigo=document.getElementById("codigo")
 let inputNombre=document.getElementById("nombre")
 let inputDescripcion=document.getElementById("descripcion")
 let inputPrecio=document.getElementById("precio")
 let inputImgUrl=document.getElementById("imgUrl")
 
-let form=document.querySelector("form") //esto se hace para no perder los datos del formulario al apretar el boton submit que recarga la pagina
 
-console.log(form);
+let form=document.querySelector("form") //esto se hace para no perder los datos del formulario al apretar el boton submit que recarga la pagina
+inputCodigo.value=ObtenerCodigoAleatorio();
+console.log(bodyTabla);
 
 form.addEventListener("submit",GuardarProducto);//al formulario le cambiamos el comportamiento nativo que tiene al precionar el boton submit para que no recargue la pagina
 
@@ -32,7 +33,8 @@ inputPrecio.addEventListener("blur",()=>{
 inputImgUrl.addEventListener("blur",()=>{
     ValidarinputUrl(inputImgUrl);
 })
-
+//Llamamos a la funcion listar productos para crear filas en nuestra tabla
+ListarProductos();
 
 function GuardarProducto(e){//siempre que haya un formulario tiene que recibir un evento. se lo coloca como e
     e.preventDefault();//Evita que se actualice la pagina
@@ -62,11 +64,14 @@ function CrearProducto(){
         icon: "success"
       });
     LimpiarFormulario();
+    bodyTabla.innerHTML=""; //De esta manera limpiamos la tabla para que no listen los productos dos veces
+    ListarProductos();
 };
 
-function LimpiarFormulario(){
+window.LimpiarFormulario= function(){//De esta manera declaramos una funcion global para poder llamarla desde el html
     form.reset();
     inputCodigo.className="form-control"
+    inputCodigo.value=ObtenerCodigoAleatorio();
     inputNombre.className="form-control"
     inputDescripcion.className="form-control"
     inputPrecio.className="form-control"
@@ -77,3 +82,20 @@ function LimpiarFormulario(){
 function GuardarLocalStorage(){
     localStorage.setItem("productos",JSON.stringify(arrayProductos));
 }
+
+function ListarProductos(){
+    arrayProductos.forEach(element => {
+        bodyTabla.innerHTML+=`<tr>
+        <th scope="row">${element.codigo}</th>
+        <td>${element.nombre}</td>
+        <td>${element.descripcion}</td>
+        <td>${element.precio}</td>
+        <td><a href="${element.imgUrl}" target = "_blank" title="Ver imagen">${element.imgUrl}</a></td>
+        <td>
+            <button type="button" class="btn btn-warning mx-1">Editar</button>
+            <button type="button" class="btn btn-danger mx-1">Eliminar</button>
+        </td>
+    </tr>`
+    });
+}
+
