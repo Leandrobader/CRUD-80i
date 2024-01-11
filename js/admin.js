@@ -162,8 +162,8 @@ function ListarProductos() {
         <td><a href="${element.imgUrl}" target = "_blank" title="Ver imagen">${element.imgUrl}</a></td>
         <td>
         <div class="d-flex">
-        <button type="button" class="btn btn-warning mx-1" onclick="PrepararEdicion('${element.codigo}')">Editar</button>
-        <button type="button" class="btn btn-danger mx-1">Eliminar</button>
+        <a href="#titulo"class="btn btn-warning mx-1" onclick="PrepararEdicion('${element.codigo}')">Editar</a>
+        <button type="button" class="btn btn-danger mx-1" onclick="BorrarProducto('${element.codigo}')">Eliminar</button>
         </div>  
         </td>
     </tr>`;
@@ -187,5 +187,31 @@ window.PrepararEdicion = function (codigo) {
   }
   esEdicion=true;
 };
+
+window.BorrarProducto=function(codigo){
+  Swal.fire({
+    title: "¿Estas seguro?",
+    text: "Los cambios no se podran revertir",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Eliminar",
+    cancelButtonText:"Cancelar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const nuevoArrayProductos = arrayProductos.filter((element)=>element.codigo !== codigo);
+      arrayProductos = nuevoArrayProductos;
+      GuardarLocalStorage();
+      ListarProductos();
+    Swal.fire({
+        title: "Exito!",
+        text: "El producto se Elimino correctamente",
+        icon: "success",
+      });
+    }
+  });
+  
+}
 
  
