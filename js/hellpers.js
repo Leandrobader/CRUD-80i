@@ -90,5 +90,20 @@ export function ObtenerCodigoAleatorio(){
      return window.crypto.randomUUID()//De esta manera nos genera codigos unicos es parte del DOM
  }
 
+export function getRoleUserLog(){
+    //funciona como el localstorage pero solo vive mientras la pestaña este abierta, una ve que se cierra se pierde la informacion de sesion
+    const user = JSON.parse(sessionStorage.getItem("user")); //esto nos puede devolver una string o null (en caso que este vacio)
+    //de esta manera obtenemos el rol del usuario
+    if(user !== null){
+        return user.role
+    }else{
+        return "invitado"
+    };
+}
+
+export function saveUserLog(user){
+    sessionStorage.setItem("user", JSON.stringify(user)); //de esta manera guardamos el usuario
+}
+
  
 

@@ -5,6 +5,7 @@ import {
   ValidarinputUrl,
   validarTodo,
   ObtenerCodigoAleatorio,
+  getRoleUserLog
 } from "./hellpers.js"; //Para poder importar debo agregar el type module en el html script
 let arrayProductos = JSON.parse(localStorage.getItem("productos")) || [];
 let bodyTabla = document.querySelector("tbody");
@@ -214,4 +215,13 @@ window.BorrarProducto=function(codigo){
   
 }
 
+function checkAdmin(){
+  const role = getRoleUserLog();
+
+  if(role !== "admin"){
+    window.location.replace("/index.html")
+  } 
+}
+
+checkAdmin();
  
